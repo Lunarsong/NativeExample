@@ -21,18 +21,58 @@ ExampleAndroidHandler::~ExampleAndroidHandler()
 
 void ExampleAndroidHandler::Run()
 {
+	// Example asset read
+	Android::Asset* pAsset = Android::GetAssetManager().GetAsset( "test.txt" );
+	if ( pAsset )
+	{
+		// Create a buffer to read the content into,
+		// [ Size() + 1 ] for null terminator character for LOV usage
+		char* pBuffer = new char[ pAsset->Size() + 1 ];
+
+		// Read the buffer
+		pAsset->Read( pBuffer, pAsset->Size() );
+
+		// Delete the asset file
+		delete pAsset;
+
+		// Set null terminating for LOGV
+		pBuffer[ pAsset->Size() ] = 0;
+
+		// Show us the file's content!
+		LOGV( "File content: %s", pBuffer );
+
+		// Delete the buffer
+		delete [] pBuffer;
+	}
+
+	// Create time measurement
+	timespec timeNow;
+	clock_gettime( CLOCK_MONOTONIC, &timeNow );
+	uint64_t uPreviousTime = timeNow.tv_sec * 1000000000ull + timeNow.tv_nsec;
+
+	// While application is alive...
 	while ( !m_bShouldQuit )
 	{
+		// Handle Android events
 		Android::PollEvents();
 
+		// Calculate delta time
+		clock_gettime( CLOCK_MONOTONIC, &timeNow ); // query time now
+		uint64_t uNowNano = timeNow.tv_sec * 1000000000ull + timeNow.tv_nsec; // get time in nanoseconds
+		float fDeltaSeconds = float( uNowNano - uPreviousTime ) * 0.000000001f; // 1 second = 1,000,000,000 nanoseconds
+		uPreviousTime = uNowNano; // set previous time to new time
+
+		// If not paused...
 		if ( !m_bIsPaused )
 		{
-			float fDeltaSeconds = 1.0f / 60.0f;
+			// Update logic
 			Update( fDeltaSeconds );
 		}
 
+		// If visible
 		if ( m_bIsVisible )
 		{
+			// Draw
 			Draw();
 		}
 
@@ -242,11 +282,13 @@ void ExampleAndroidHandler::OnTouch( int iPointerID, float fPosX, float fPosY, i
 
 	if ( iAction == 0 )
 	{
+		// On touch start show keyboard!
 		Android::ShowKeyboard();
 	}
 
 	else if ( iAction == 1 )
 	{
+		// On touch up, hide keyboard...
 		Android::HideKeyboard();
 	}
 }

@@ -1,6 +1,5 @@
-hi ok ty bye
+This is test.txt file.
 
+This is another line inside the file.
 
-wait!
-
-bye
+This is the final line inside the file. Goodbye!
