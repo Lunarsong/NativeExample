@@ -39,7 +39,7 @@ void ExampleAndroidHandler::Run()
 		pBuffer[ pAsset->Size() ] = 0;
 
 		// Show us the file's content!
-		LOGV( "File content: %s", pBuffer );
+		LOGV( "[Example]: File content: %s", pBuffer );
 
 		// Delete the buffer
 		delete [] pBuffer;
@@ -77,6 +77,8 @@ void ExampleAndroidHandler::Run()
 		}
 
 	}
+
+	LOGV( "[Example]: Mainloop terminated." );
 }
 
 void ExampleAndroidHandler::Update( float fDeltaSeconds )
@@ -92,7 +94,7 @@ void ExampleAndroidHandler::Draw()
 
 	if ( !eglSwapBuffers( m_Display, m_Surface ) )
 	{
-		LOGE( "eglSwapBuffers() returned error %d", eglGetError() );
+		LOGE( "[Example]: eglSwapBuffers() returned error %d", eglGetError() );
 	}
 }
 
