@@ -23,5 +23,6 @@ void android_main()
 	pHandler->Run();
 
 	// Application over
-	// Note the handler is destroy by Android
+	delete pHandler;
+
 }
