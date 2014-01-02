@@ -26,17 +26,17 @@ void ExampleAndroidHandler::Run()
 	if ( pAsset )
 	{
 		// Create a buffer to read the content into,
-		// [ Size() + 1 ] for null terminator character for LOV usage
+		// [ Size() + 1 ] for null terminator character for LOG usage
 		char* pBuffer = new char[ pAsset->Size() + 1 ];
 
 		// Read the buffer
 		pAsset->Read( pBuffer, pAsset->Size() );
 
+		// Set null terminating for LOG
+		pBuffer[ pAsset->Size() ] = 0;
+
 		// Delete the asset file
 		delete pAsset;
-
-		// Set null terminating for LOGV
-		pBuffer[ pAsset->Size() ] = 0;
 
 		// Show us the file's content!
 		LOGV( "[Example]: File content: %s", pBuffer );
