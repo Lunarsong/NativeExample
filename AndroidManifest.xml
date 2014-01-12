@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.nativeexample"
+    package="com.lunarsong.nativeexample"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -13,8 +13,13 @@
         android:label="@string/app_name"
         android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
         
+        <meta-data android:name="com.google.android.gms.version"
+           android:value="@integer/google_play_services_version" />
+        <meta-data android:name="com.google.android.gms.games.APP_ID"
+        android:value="@string/app_id" />
+        
         <activity
-            android:name="com.lunarsong.android.NativeActivity"
+            android:name="com.lunarsong.android.NativeGameActivity"
             android:label="@string/app_name" 
             android:configChanges="keyboardHidden|keyboard|orientation|screenSize" >
             <intent-filter>

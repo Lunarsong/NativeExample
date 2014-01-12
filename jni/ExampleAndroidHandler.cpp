@@ -1,5 +1,7 @@
 #include "ExampleAndroidHandler.h"
 #include <AndroidLog.h>
+#include <GooglePlayServices.h>
+#include <GoogleGames.h>
 
 ExampleAndroidHandler::ExampleAndroidHandler()
 {
@@ -49,6 +51,9 @@ void ExampleAndroidHandler::Run()
 	timespec timeNow;
 	clock_gettime( CLOCK_MONOTONIC, &timeNow );
 	uint64_t uPreviousTime = timeNow.tv_sec * 1000000000ull + timeNow.tv_nsec;
+
+	// Connect to Google Play
+	Android::GooglePlayServices::SignIn();
 
 	// While application is alive...
 	while ( !m_bShouldQuit )
@@ -263,6 +268,7 @@ void ExampleAndroidHandler::OnHidden()
 {
 	LOGV( "[Example]: Hidden!" );
 	m_bIsVisible = false;
+	//Android::GooglePlayServices::SignOut();
 }
 
 void ExampleAndroidHandler::OnLowMemory()
@@ -276,21 +282,29 @@ void ExampleAndroidHandler::OnLowMemory()
 void ExampleAndroidHandler::OnKey( int iKeyCode, wchar_t iUnicodeChar )
 {
 	LOGV( "[Example]: Got key! %i %c", iKeyCode, iUnicodeChar );
+
+
 }
 
 void ExampleAndroidHandler::OnTouch( int iPointerID, float fPosX, float fPosY, int iAction )
 {
-	LOGV( "[Example]: Touch: %i, x: %f y:, %f action:, %i.", iPointerID, fPosX, fPosY, iAction );
+	//LOGV( "[Example]: Touch: %i, x: %f y:, %f action:, %i.", iPointerID, fPosX, fPosY, iAction );
 
 	if ( iAction == 0 )
 	{
 		// On touch start show keyboard!
 		Android::ShowKeyboard();
+		Android::GoogleGames::SubmitScore( "CgkIp8rf-fkTEAIQCQ", 1337 );
+		Android::GoogleGames::UnlockAchievement( "CgkIp8rf-fkTEAIQAw" );
 	}
 
 	else if ( iAction == 1 )
 	{
 		// On touch up, hide keyboard...
 		Android::HideKeyboard();
+		//Android::GooglePlayServices::ShowAlert( "Test Alert!", "Test" );
+		//Android::GoogleGames::ShowAllLeaderboards();
+		Android::GoogleGames::ShowAchievements();
+
 	}
 }
