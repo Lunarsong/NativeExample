@@ -2,6 +2,24 @@
 #include <AndroidLog.h>
 #include <GooglePlayServices.h>
 #include <GoogleGames.h>
+#include <time.h>
+
+class SignInListener : public Android::ISignInListener
+{
+public:
+	virtual void OnSignInSucceeded()
+	{
+		LOGV( "Signed in!" );
+	}
+
+	virtual void OnSignInFailed()
+	{
+		LOGE( "Sign in failed." );
+	}
+
+	SignInListener() { }
+	virtual ~SignInListener() { }
+};
 
 ExampleAndroidHandler::ExampleAndroidHandler()
 {
@@ -23,6 +41,9 @@ ExampleAndroidHandler::~ExampleAndroidHandler()
 
 void ExampleAndroidHandler::Run()
 {
+	SignInListener signInListener;
+	Android::GooglePlayServices::SetSignInListener( &signInListener );
+
 	// Example asset read
 	Android::Asset* pAsset = Android::GetAssetManager().GetAsset( "test.txt" );
 	if ( pAsset )

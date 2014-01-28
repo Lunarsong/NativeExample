@@ -2,7 +2,7 @@ LOCAL_PATH := $(call my-dir)
 
 include $(CLEAR_VARS)
 LOCAL_MODULE := NativeActivity
-LOCAL_SRC_FILES := ../../NativeActivity/obj/local/armeabi/libNativeActivity.a
+LOCAL_SRC_FILES := ../../NativeActivity/obj/local/armeabi-v7a/libNativeActivity.a
 
 include $(PREBUILT_STATIC_LIBRARY)
 
