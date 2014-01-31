@@ -2,14 +2,22 @@
 #include <AndroidLog.h>
 #include <GooglePlayServices.h>
 #include <GoogleGames.h>
+#include <AppState.h>
 #include <time.h>
+#include "ExampleStateListener.h"
 
 class SignInListener : public Android::ISignInListener
 {
+private:
+	ExampleStateListener m_StateListener;
+
 public:
 	virtual void OnSignInSucceeded()
 	{
 		LOGV( "Signed in!" );
+		char state[] = "Hello Cloud Save!";
+		Android::AppState::UpdateState( 1, state, sizeof( state ) );
+		Android::AppState::LoadState( 1, &m_StateListener );
 	}
 
 	virtual void OnSignInFailed()
@@ -315,8 +323,9 @@ void ExampleAndroidHandler::OnTouch( int iPointerID, float fPosX, float fPosY, i
 	{
 		// On touch start show keyboard!
 		Android::ShowKeyboard();
-		Android::GoogleGames::SubmitScore( "CgkIp8rf-fkTEAIQCQ", 1337 );
-		Android::GoogleGames::UnlockAchievement( "CgkIp8rf-fkTEAIQAw" );
+		Android::GooglePlayServices::SignIn();
+		//Android::GoogleGames::SubmitScore( "CgkIp8rf-fkTEAIQCQ", 1337 );
+		//Android::GoogleGames::UnlockAchievement( "CgkIp8rf-fkTEAIQAw" );
 	}
 
 	else if ( iAction == 1 )
@@ -325,7 +334,7 @@ void ExampleAndroidHandler::OnTouch( int iPointerID, float fPosX, float fPosY, i
 		Android::HideKeyboard();
 		//Android::GooglePlayServices::ShowAlert( "Test Alert!", "Test" );
 		//Android::GoogleGames::ShowAllLeaderboards();
-		Android::GoogleGames::ShowAchievements();
+		//Android::GoogleGames::ShowAchievements();
 
 	}
 }

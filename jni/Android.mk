@@ -10,7 +10,7 @@ include $(PREBUILT_STATIC_LIBRARY)
 include $(CLEAR_VARS)
 
 LOCAL_MODULE    := NativeExample
-LOCAL_SRC_FILES := NativeExample.cpp ExampleAndroidHandler.cpp
+LOCAL_SRC_FILES := NativeExample.cpp ExampleAndroidHandler.cpp ExampleStateListener.cpp
 LOCAL_CPPFLAGS  := -DNULL=0 -frtti
 LOCAL_C_INCLUDES += ../NativeActivity/jni
 LOCAL_LDLIBS    := -llog -landroid -lEGL -lGLESv2
