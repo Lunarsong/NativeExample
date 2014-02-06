@@ -5,6 +5,7 @@
 #include <AppState.h>
 #include <time.h>
 #include "ExampleStateListener.h"
+#include <Notification.h>
 
 class SignInListener : public Android::ISignInListener
 {
@@ -277,6 +278,13 @@ void ExampleAndroidHandler::OnSurfaceDestroyed()
 // States
 void ExampleAndroidHandler::OnPause()
 {
+	Android::Notification notification;
+	notification.SetContentTitle( "New Test Title" );
+	notification.SetContentText( "Test Content" );
+	notification.SetSmallIcon( 0x7f020000 );
+
+	Android::GetNotificationManager().Notify( 500, notification );
+
 	LOGV( "[Example]: Paused!" );
 	m_bIsPaused = true;
 }
